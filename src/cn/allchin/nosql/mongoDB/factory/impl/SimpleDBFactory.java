@@ -9,9 +9,16 @@ public class SimpleDBFactory implements DBFactory{
 	private String dbName=null;
 	private MongoFactory mongoFactory=null;
 	
+	private DB db=null;
+	
 	public DB getDB()throws Exception{
+		if(db!=null){
+			return db;
+		}
 		
-		return getMongoFactory().getMongo().getDB(dbName);
+		db=getMongoFactory().getMongo().getDB(dbName);
+		
+		return db;
 	}
 	
 	public String getDbName() {

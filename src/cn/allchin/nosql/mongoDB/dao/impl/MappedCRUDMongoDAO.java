@@ -3,6 +3,8 @@ package cn.allchin.nosql.mongoDB.dao.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.allchin.nosql.mongoDB.factory.DBFactory;
+
 import com.mongodb.DB;
 
 /**
@@ -10,7 +12,7 @@ import com.mongodb.DB;
  * <p>Description:
  * 给我一个数据库,我将能够自动根据对象映射到不同的表,并切维护不同表的dao,
  * 对对象自动分类CRUD操作,
- * 完成这一切,只需要给我一个DB
+ * 完成这一切,只需要给我一个DBFactory  ,当然,直接给我一个DB也是可行的
  *
  * </p>	
  * <p>Copyright: Copyright (c) 2011</p>
@@ -26,8 +28,12 @@ public class MappedCRUDMongoDAO  {
  	
 	private   DB db=null;
 	
- 
+	private DBFactory dbFactory=null;
 	
+	/**
+	 * Thingking:
+	 * 这里使用单例到底好不好,是否为了性能牺牲了了灵活性...
+	 */
 	private static  Map<String  ,BasicCRUDMongoDAO> daoMap=new HashMap<String,BasicCRUDMongoDAO>();
  	
 	public MappedCRUDMongoDAO() {
@@ -40,6 +46,13 @@ public class MappedCRUDMongoDAO  {
 	public MappedCRUDMongoDAO(DB db) {
 		this.db=db;
 	}
+	
+	/**指定数据源工厂
+	 * @param db
+	 */
+	public MappedCRUDMongoDAO(DBFactory dbFactory)throws Exception {
+		this.db=dbFactory.getDB();
+	}
  
 	/**get BasicCRUDMongoDAO
 	 *  
@@ -50,6 +63,16 @@ public class MappedCRUDMongoDAO  {
 	 * @return 基本的crudDAO
 	 */
 	public     BasicCRUDMongoDAO getDAO(Object dataLike){
+		if(db==null){
+			try {
+				db=dbFactory.getDB();
+			}
+			catch (Exception e) {
+				 
+				e.printStackTrace();
+			}
+		}
+		
 		
 		BasicCRUDMongoDAO dao=null;
 		
@@ -132,6 +155,26 @@ public class MappedCRUDMongoDAO  {
 	 */
 	public    void setDb(DB db) {
 		this.db = db;
+	}
+
+	public DBFactory getDbFactory() {
+		return dbFactory;
+	}
+
+	public void setDbFactory(DBFactory dbFactory) {
+		this.dbFactory = dbFactory;
+	}
+
+	public static Map<String, BasicCRUDMongoDAO> getDaoMap() {
+		return daoMap;
+	}
+
+	public static void setDaoMap(Map<String, BasicCRUDMongoDAO> daoMap) {
+		MappedCRUDMongoDAO.daoMap = daoMap;
+	}
+
+	public DB getDb() {
+		return db;
 	}
 	
 	

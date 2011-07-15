@@ -8,9 +8,22 @@ import com.mongodb.DBCollection;
 public class SimpleTableFactory implements DBCollectionFactory {
 	private String collectionName=null;
 	private DB db=null;
+	private DBCollection dbCollection =null;
 	
+	/**
+	 * Thinking:
+	 * 我发现,如果你的方法要return 一个对象,如果先判断这个对象不为null,直接 return改对象的话,
+	 * <br>
+	 * 能够有效的减少方法嵌套的层次. 
+	 */
 	public DBCollection getDBCollection(){
-		return getDb().getCollection(collectionName);
+		if(dbCollection!=null){
+			return dbCollection;
+		}
+		
+		dbCollection=getDb().getCollection(collectionName);
+		
+		return dbCollection;
 		
 		
 	}

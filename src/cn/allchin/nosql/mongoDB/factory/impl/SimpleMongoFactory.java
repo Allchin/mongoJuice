@@ -27,9 +27,13 @@ import com.mongodb.ServerAddress;
 public class SimpleMongoFactory implements MongoFactory {
 	private List<String> serverAddress=null;
 	
+	private Mongo mongo=null;
 	
 	public   Mongo getMongo()throws Exception{
-		 Mongo mongo=new Mongo();
+		if(mongo!=null){
+			return mongo;
+		}
+ 
 			//Address
 			List<ServerAddress> sAddList=new ArrayList<ServerAddress>();
 			

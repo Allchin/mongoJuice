@@ -2,7 +2,7 @@ package cn.allchin.test.pojo;
 
 public class Persion {
 	private String name=null;
-	private Integer id=null;
+	private Integer _id=null;
 	private String email=null	;
 	
 	public Persion() {
@@ -15,19 +15,19 @@ public class Persion {
 	
 	public Persion(Integer id,String name,String email) {
 		this.name=name;
-		this.id=id;
+		this._id=id;
 		this.email=email;
 	}
 	
 	public Persion(String name,Integer id,String email) {
 		this.name=name;
-		this.id=id;
+		this._id=id;
 		this.email=email;
 	}
 	
 	@Override
 	public String toString() {
-		return this.id+"-"+this.name+"-"+this.email;
+		return this._id+"-"+this.name+"-"+this.email;
 	
 	}
 
@@ -39,13 +39,9 @@ public class Persion {
 		this.name = name;
 	}
 
-	public Integer getId() {
-		return id;
-	}
+ 
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+ 
 
 	public String getEmail() {
 		return email;
@@ -53,6 +49,14 @@ public class Persion {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Integer get_id() {
+		return _id;
+	}
+
+	public void set_id(Integer id) {
+		_id = id;
 	}
 	
 	
